@@ -6,15 +6,7 @@ import tiktoken
 st.set_page_config(page_title="Character Template Generator", layout="centered")
 st.title("🧠 Character Template Generator")
 
-# --- Integrated Guides Section ---
-st.markdown("""
-### 📘 Reference Guides
-- 📄 [Character Creation Guide](https://docs.google.com/document/d/1bEtS5YNWuZ4--ji8sfL5Cf8UCBsYeXxYpiKuaX6kLoo/edit)
-- ✳️ [F++ Format Extended Guide](https://docs.google.com/document/d/1pa_6OyVh1r72Hhz1EqITrf3gzBzu6eC_HixSxeni3oY/edit)
-- 🧾 [AI Character Writing Styles Guide](https://docs.google.com/document/d/13T_HTVxtAYBqhBwcQBQv3NCSLEGKuhifer-QrHkVcpw/edit)
-""")
-
-# --- Instructions ---
+# --- Instructions and Guide Links ---
 st.markdown("""
 ### How to Use This App
 1. Enter your **character's name**.
@@ -26,23 +18,10 @@ st.markdown("""
 4. Click **Generate Template**.
 5. Copy, save, or use as needed!
 
-_Optional: Use example to autofill a sample character._
-""")
-
-st.set_page_config(page_title="Character Template Generator", layout="centered")
-st.title("🧠 Character Template Generator")
-
-# --- Instructions ---
-st.markdown("""
-### How to Use This App
-1. Enter your **character's name**.
-2. Choose the **template format**:
-   - `F++` → Appearance & style
-   - `S++` → Role/Scenario details
-   - `P++` → Personality & logic
-3. Pick if it’s an **Original** or **Adapted** character.
-4. Click **Generate Template**.
-5. Copy, save, or use as needed!
+📖 **Helpful Writing Guides**:
+- [🧬 Character Creation Guide](https://docs.google.com/document/d/1bEtS5YNWuZ4--ji8sfL5Cf8UCBsYeXxYpiKuaX6kLoo/edit?usp=sharing)
+- [🧠 F++ Format Extended Guide](https://docs.google.com/document/d/1pa_6OyVh1r72Hhz1EqITrf3gzBzu6eC_HixSxeni3oY/edit?usp=sharing)
+- [📝 Writing Styles Guide](https://docs.google.com/document/d/13T_HTVxtAYBqhBwcQBQv3NCSLEGKuhifer-QrHkVcpw/edit?usp=sharing)
 
 _Optional: Use example to autofill a sample character._
 """)
@@ -106,7 +85,7 @@ def generate_character_template(name, format_type, character_type, use_example):
     Gender("Female")
     Race("Human")
     Age("18")
-    Height("Tall")
+    Height("Petite and athletic")
     Nickname("Example")
 
     Personality {{
@@ -157,7 +136,7 @@ st.markdown("""
     margin-bottom: 20px;
     font-family: Arial;
     line-height: 1.6;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.85);
 }
 .trait-positive {
     border: 2px solid #4DA8DA;
@@ -193,29 +172,31 @@ st.markdown("""
     Aggressive, Aloof, Anxious, Arrogant, Bossy, Clingy, Cold, Conceited, Cowardly, Critical, Cruel, Cynical, Deceitful, Defensive, Demanding, Dishonest, Disloyal, Disrespectful, Distrustful, Envious, Fearful, Foolish, Forgetful, Greedy, Grumpy, Gullible, Hostile, Impatient, Impulsive, Inconsiderate, Inflexible, Intolerant, Irresponsible, Jealous, Lazy, Manipulative, Moody, Naive, Neglectful, Obsessive, Overbearing, Paranoid, Passive, Pessimistic, Possessive, Reckless, Rude, Selfish, Stubborn, Suspicious, Tactless, Unfriendly, Ungrateful, Unreliable, Vain, Vindictive, Weak-willed
 </div>
 </details>
+""", unsafe_allow_html=True)
 
+# --- Appearance Description Reference Section ---
+st.markdown("""
 <details>
-<summary><strong>🧍 Appearance Description Reference (Click to Expand)</strong></summary>
+<summary><strong>✨ Appearance Description Reference (Click to Expand)</strong></summary>
 <br>
-<div class="trait-box trait-positive">
-    <div class="trait-title">🟢 Head and Face</div>
-    Oval, Round, Square, Heart, Diamond, Long, Triangular, Oblong, Pear-shaped, Rectangular<br>
-    Features: Cheeks (rosy, plump...), Chin (pointed, cleft...), Ears (delicate, pierced...), Eyes (bright, slanted...), Nose (button, aquiline...), etc.
+<div class="trait-box" style="border: 2px solid #7C83FD">
+<div class="trait-title">👤 Head & Face</div>
+Facial shape, jawline structure, cheekbone prominence, nose length and tip, chin shape, ears, eye spacing, eyebrow style, mouth and lip fullness, etc.
 </div>
 
-<div class="trait-box trait-neutral">
-    <div class="trait-title">💇 Hair</div>
-    Texture (curly, straight...), Length (shoulder-length, waist-length...), Style (braided, ponytail...), Color (auburn, silver...), Accessories (clips, ribbons, beads...)
+<div class="trait-box" style="border: 2px solid #F47C7C">
+<div class="trait-title">💇 Hair</div>
+Length, color, texture, parting, styling (braids, buns, waves), volume, accessories (clips, ties).
 </div>
 
-<div class="trait-box trait-negative">
-    <div class="trait-title">🏋️ Body</div>
-    Build (athletic, burly...), Posture (upright, slouched...), Shape (hourglass, pear...), Muscles, Fat Distribution, Body Hair, Body Movements (graceful, rigid...)
+<div class="trait-box" style="border: 2px solid #70D6FF">
+<div class="trait-title">🧍 Body</div>
+Height description (tall, petite), build (slender, stocky), limb proportions, shoulder width, muscle tone, posture.
 </div>
 
-<div class="trait-box trait-positive">
-    <div class="trait-title">🧴 Skin</div>
-    Texture (smooth, rough...), Tone (fair, olive...), Complexion (glowing, dull...), Marks (freckles, scars...), Condition (healthy, dry...)
+<div class="trait-box" style="border: 2px solid #FFD670">
+<div class="trait-title">🧴 Skin</div>
+Tone (fair, olive, dark), undertones (cool, warm), complexion (freckled, smooth), scars, tattoos, markings.
 </div>
 </details>
 """, unsafe_allow_html=True)
