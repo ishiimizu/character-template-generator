@@ -1,7 +1,6 @@
 # Character Template Generator - Streamlit Version
 
 import streamlit as st
-import tiktoken
 
 st.set_page_config(page_title="Character Template Generator", layout="centered")
 st.title("🧠 Character Template Generator")
