@@ -32,10 +32,10 @@ format_type = st.selectbox("Format Type", ["F++", "S++", "P++"])
 character_type = st.selectbox("Character Type", ["Adapted Character", "Original Character"])
 use_example = st.checkbox("Use Example")
 
-# --- Token Counting (Updated with TikToken) ---
+# --- Token Counting (Updated with cl100k_base for accuracy) ---
 def count_tokens(text, model="gpt-3.5-turbo"):
-    enc = tiktoken.encoding_for_model(model)
-    tokens = enc.encode(text)
+    enc = tiktoken.get_encoding("cl100k_base")
+    tokens = enc.encode(text.strip())
     return len(tokens)
 
 # --- Template Generator Function ---
@@ -136,7 +136,7 @@ st.markdown("""
     margin-bottom: 20px;
     font-family: Arial;
     line-height: 1.6;
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.0); /* Transparent */
 }
 .trait-positive {
     border: 2px solid #4DA8DA;
