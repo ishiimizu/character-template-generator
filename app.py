@@ -1,6 +1,7 @@
 # Character Template Generator - Streamlit Version
 
 import streamlit as st
+import re
 
 st.set_page_config(page_title="Character Template Generator", layout="centered")
 st.title("🧠 Character Template Generator")
@@ -32,10 +33,7 @@ character_type = st.selectbox("Character Type", ["Adapted Character", "Original 
 use_example = st.checkbox("Use Example")
 
 # --- Token Counting ---
-import re
-
 def count_tokens(text):
-    # Approximate GPT-style token count using regex
     tokens = re.findall(r"\w+|[^\w\s]", text, re.UNICODE)
     return len(tokens)
 
@@ -56,21 +54,17 @@ def generate_character_template(name, format_type, character_type, use_example):
             Texture("Smooth and slightly layered for a natural, effortless look.")
             Details("Light bangs frame the forehead, adding a youthful charm.")
         }}
-
         HairColor("Jet black with a healthy sheen.")
-
         EyeColor {{
             Hue("Vibrant green with a soft and gentle undertone.")
             Shape("Almond-shaped, wide, and expressive.")
             Expression("Often thoughtful or slightly serious.")
         }}
-
         BodyProportions {{
             Build("Slim and athletic")
             Posture("Upright and composed")
             Features("Agile physique suited to an active lifestyle.")
         }}
-
         Attire {{
             Top("White hoodie with a pink stripe")
             Bottom("Light gray pleated skirt")
@@ -78,7 +72,6 @@ def generate_character_template(name, format_type, character_type, use_example):
             Footwear("Sporty sneakers")
             Accessories("Minimalistic, functional.")
         }}
-
         OverallAura("Practical and laid-back appearance reflecting a tough-yet-caring spirit.")
     }}
 }}''',
@@ -135,40 +128,8 @@ if edited_output:
     st.download_button("📥 Download Template as .txt", data=edited_output, file_name="character_template.txt")
     st.code(edited_output, language="text")
 
-# --- Generate Output ---
-if st.button("Generate Template"):
-    output = generate_character_template(name, format_type, character_type, use_example)
-    token_count = count_tokens(output)
-    edited_output = st.text_area("📝 Editable Template Output", value=output, height=400)
-    st.success(f"Token Count: {count_tokens(edited_output)}")
-
 # --- Trait Reference Section ---
 st.markdown("""
-<style>
-.trait-box {
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
-    font-family: Arial;
-    line-height: 1.6;
-    background-color: rgba(255, 255, 255, 0.0);
-}
-.trait-positive {
-    border: 2px solid #4DA8DA;
-}
-.trait-neutral {
-    border: 2px solid #FFB347;
-}
-.trait-negative {
-    border: 2px solid #FF6F61;
-}
-.trait-title {
-    font-weight: bold;
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-</style>
-
 <details>
 <summary><strong>📚 Personality Traits Reference (Click to Expand)</strong></summary>
 <br>
@@ -189,7 +150,7 @@ st.markdown("""
 </details>
 """, unsafe_allow_html=True)
 
-# --- Appearance Description Reference Section ---
+# --- Appearance Reference Section ---
 st.markdown("""
 <details>
 <summary><strong>✨ Appearance Description Reference (Click to Expand)</strong></summary>
