@@ -6,6 +6,34 @@ import re
 st.set_page_config(page_title="Character Template Generator", layout="centered")
 st.title("🧠 Character Template Generator")
 
+# --- CSS for Colored Trait Boxes ---
+st.markdown("""
+<style>
+.trait-box {
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: rgba(255, 255, 255, 0.0);
+}
+.trait-positive {
+    border: 2px solid #4DA8DA;
+}
+.trait-neutral {
+    border: 2px solid #FFB347;
+}
+.trait-negative {
+    border: 2px solid #FF6F61;
+}
+.trait-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # --- Instructions and Guide Links ---
 st.markdown("""
 ### How to Use This App
@@ -21,7 +49,7 @@ st.markdown("""
 📖 **Helpful Writing Guides**:
 - [🧬 Character Creation Guide](https://docs.google.com/document/d/1bEtS5YNWuZ4--ji8sfL5Cf8UCBsYeXxYpiKuaX6kLoo/edit?usp=sharing)
 - [🧠 F++ Format Extended Guide](https://docs.google.com/document/d/1pa_6OyVh1r72Hhz1EqITrf3gzBzu6eC_HixSxeni3oY/edit?usp=sharing)
-- [📝 Writing Styles Guide](https://docs.google.com/document/d/13T_HTVxtAYBqhBwcQBQv3NCSLEGKuhifer-QrHkVcpw/edit?usp=sharing)
+- [🗘️ Writing Styles Guide](https://docs.google.com/document/d/13T_HTVxtAYBqhBwcQBQv3NCSLEGKuhifer-QrHkVcpw/edit?usp=sharing)
 
 _Optional: Use example to autofill a sample character._
 """)
@@ -125,7 +153,7 @@ edited_output = st.text_area("📝 Editable Template Output", value=st.session_s
 
 if edited_output:
     st.success(f"Token Count: {count_tokens(edited_output)}")
-    st.download_button("📥 Download Template as .txt", data=edited_output, file_name="character_template.txt")
+    st.download_button("📅 Download Template as .txt", data=edited_output, file_name="character_template.txt")
     st.code(edited_output, language="text")
 
 # --- Trait Reference Section ---
@@ -137,12 +165,10 @@ st.markdown("""
     <div class="trait-title">💙 Positive Traits</div>
     Affectionate, Ambitious, Brave, Calm, Caring, Charismatic, Cheerful, Compassionate, Confident, Considerate, Cooperative, Courteous, Creative, Decisive, Determined, Diligent, Empathetic, Enthusiastic, Faithful, Flexible, Forgiving, Friendly, Generous, Gentle, Helpful, Honest, Hopeful, Humble, Imaginative, Independent, Innovative, Kind, Logical, Loyal, Loving, Mature, Modest, Motivated, Optimistic, Organized, Outgoing, Patient, Polite, Positive, Practical, Proactive, Rational, Reliable, Respectful, Responsible, Sincere, Sociable, Supportive, Thoughtful, Tolerant, Trustworthy, Understanding, Warm
 </div>
-
 <div class="trait-box trait-neutral">
     <div class="trait-title">🟠 Neutral Traits</div>
     Analytical, Assertive, Cautious, Competitive, Curious, Direct, Discreet, Dreamy, Emotional, Focused, Formal, Honest (blunt), Idealistic, Introspective, Methodical, Observant, Outspoken, Perfectionist, Quiet, Realistic, Reflective, Reserved, Sarcastic, Serious, Shy, Skeptical, Strategic, Studious, Tenacious, Thoughtful (pragmatic), Tidy, Tough, Unconventional, Witty
 </div>
-
 <div class="trait-box trait-negative">
     <div class="trait-title">❤️‍🔥 Negative Traits</div>
     Aggressive, Aloof, Anxious, Arrogant, Bossy, Clingy, Cold, Conceited, Cowardly, Critical, Cruel, Cynical, Deceitful, Defensive, Demanding, Dishonest, Disloyal, Disrespectful, Distrustful, Envious, Fearful, Foolish, Forgetful, Greedy, Grumpy, Gullible, Hostile, Impatient, Impulsive, Inconsiderate, Inflexible, Intolerant, Irresponsible, Jealous, Lazy, Manipulative, Moody, Naive, Neglectful, Obsessive, Overbearing, Paranoid, Passive, Pessimistic, Possessive, Reckless, Rude, Selfish, Stubborn, Suspicious, Tactless, Unfriendly, Ungrateful, Unreliable, Vain, Vindictive, Weak-willed
@@ -159,17 +185,14 @@ st.markdown("""
 <div class="trait-title">👤 Head & Face</div>
 Facial shape, jawline structure, cheekbone prominence, nose length and tip, chin shape, ears, eye spacing, eyebrow style, mouth and lip fullness, etc.
 </div>
-
 <div class="trait-box" style="border: 2px solid #F47C7C">
 <div class="trait-title">💇 Hair</div>
 Length, color, texture, parting, styling (braids, buns, waves), volume, accessories (clips, ties).
 </div>
-
 <div class="trait-box" style="border: 2px solid #70D6FF">
-<div class="trait-title">🧍 Body</div>
+<div class="trait-title">🧕 Body</div>
 Height description (tall, petite), build (slender, stocky), limb proportions, shoulder width, muscle tone, posture.
 </div>
-
 <div class="trait-box" style="border: 2px solid #FFD670">
 <div class="trait-title">🧴 Skin</div>
 Tone (fair, olive, dark), undertones (cool, warm), complexion (freckled, smooth), scars, tattoos, markings.
