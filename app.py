@@ -121,6 +121,20 @@ def generate_character_template(name, format_type, character_type, use_example):
     {'Role("")\n    Specialty("")\n    CombatStyle("")\n    ScenarioTags("")\n    SampleDialogue("")' if format_type == 'S++' else ''}
 }}'''
 
+# --- Persistent Output with Editability ---
+if "output" not in st.session_state:
+    st.session_state.output = ""
+
+if st.button("Generate Template"):
+    st.session_state.output = generate_character_template(name, format_type, character_type, use_example)
+
+edited_output = st.text_area("📝 Editable Template Output", value=st.session_state.output, height=400, key="editable")
+
+if edited_output:
+    st.success(f"Token Count: {count_tokens(edited_output)}")
+    st.download_button("📥 Download Template as .txt", data=edited_output, file_name="character_template.txt")
+    st.code(edited_output, language="text")
+
 # --- Generate Output ---
 if st.button("Generate Template"):
     output = generate_character_template(name, format_type, character_type, use_example)
@@ -201,3 +215,12 @@ Tone (fair, olive, dark), undertones (cool, warm), complexion (freckled, smooth)
 </div>
 </details>
 """, unsafe_allow_html=True)
+
+# --- Support Links ---
+st.markdown("""
+---
+#### 💖 Support & Explore
+[🔗 My GPTGirlfriend Profile](https://www.gptgirlfriend.online/creators/Hiruko)
+
+[☕ Support Me on Ko-Fi](https://ko-fi.com/hiruko)
+""")
