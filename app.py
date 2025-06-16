@@ -32,9 +32,11 @@ character_type = st.selectbox("Character Type", ["Adapted Character", "Original 
 use_example = st.checkbox("Use Example")
 
 # --- Token Counting (Updated with cl100k_base for accuracy) ---
-def count_tokens(text, model="gpt-3.5-turbo"):
-    enc = tiktoken.get_encoding("cl100k_base")
-    tokens = enc.encode(text.strip())
+import re
+
+def count_tokens(text):
+    # Approximate GPT-style token count using regex
+    tokens = re.findall(r"\w+|[^\w\s]", text, re.UNICODE)
     return len(tokens)
 
 # --- Template Generator Function ---
