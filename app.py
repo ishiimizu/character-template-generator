@@ -1,6 +1,7 @@
 # Character Template Generator - Streamlit Version
 
 import streamlit as st
+import re
 
 st.set_page_config(page_title="Character Template Generator", layout="centered")
 st.title("🧠 Character Template Generator")
@@ -15,7 +16,7 @@ st.markdown("""
    - `P++` → Personality & logic
 3. Pick if it’s an **Original** or **Adapted** character.
 4. Click **Generate Template**.
-5. Copy, save, or use as needed!
+5. Edit, copy, save, or use as needed!
 
 📖 **Helpful Writing Guides**:
 - [🧬 Character Creation Guide](https://docs.google.com/document/d/1bEtS5YNWuZ4--ji8sfL5Cf8UCBsYeXxYpiKuaX6kLoo/edit?usp=sharing)
@@ -25,18 +26,61 @@ st.markdown("""
 _Optional: Use example to autofill a sample character._
 """)
 
+# --- Reference Section: Traits ---
+with st.expander("📚 Personality Traits Reference", expanded=False):
+    st.markdown("""
+    <div style='background-color: rgba(255, 255, 255, 0.0); padding: 10px;'>
+        <h4 style='color: #D6336C;'>Core Traits</h4>
+        - Courageous, Loyal, Resilient, Determined, Adaptable
+
+        <h4 style='color: #4C6EF5;'>Positive Traits</h4>
+        - Friendly, Humble, Caring, Open-Minded, Observant, Generous, Patient
+
+        <h4 style='color: #12B886;'>Neutral Traits</h4>
+        - Curious, Independent, Practical, Street-Smart, Blunt, Guarded
+
+        <h4 style='color: #F59F00;'>Negative Traits</h4>
+        - Naïve, Impulsive, Rebellious, Risk-Taker, Overconfident, Stubborn
+    </div>
+    """, unsafe_allow_html=True)
+
+# --- Reference Section: Appearance ---
+with st.expander("🪞 Appearance Description Reference", expanded=False):
+    st.markdown("""
+    <div style='background-color: rgba(255, 255, 255, 0.0); padding: 10px;'>
+        <h4 style='color: #1C7ED6;'>Hairstyle</h4>
+        - Type: Ponytail, bob cut, layered, etc.
+        - Texture: Curly, smooth, tousled...
+        - Details: Fringe, side part, volume, etc.
+
+        <h4 style='color: #1C7ED6;'>Eye Color</h4>
+        - Hue: Emerald, amber, ocean blue...
+        - Shape: Almond, round, slanted...
+        - Expression: Intense, calm, playful...
+
+        <h4 style='color: #1C7ED6;'>Body Proportions</h4>
+        - Build: Slim, athletic, broad...
+        - Posture: Confident, slouched, elegant...
+        - Features: Defined jaw, soft cheeks, etc.
+
+        <h4 style='color: #1C7ED6;'>Attire</h4>
+        - Top, bottom, footwear, accessories
+        - Style: Formal, casual, combat, fantasy...
+
+        <h4 style='color: #1C7ED6;'>Overall Aura</h4>
+        - Graceful, tough, mysterious, approachable...
+    </div>
+    """, unsafe_allow_html=True)
+
 # --- Generator Configuration ---
 name = st.text_input("Character Name")
 format_type = st.selectbox("Format Type", ["F++", "S++", "P++"])
 character_type = st.selectbox("Character Type", ["Adapted Character", "Original Character"])
 use_example = st.checkbox("Use Example")
 
-# --- Token Counting (Updated with cl100k_base for accuracy) ---
-import re
-
+# --- Token Counting (Regex Version for Streamlit Compatibility) ---
 def count_tokens(text):
-    # Approximate GPT-style token count using regex
-    tokens = re.findall(r"\w+|[^\w\s]", text, re.UNICODE)
+    tokens = re.findall(r"\w+|[^\s\w]", text)
     return len(tokens)
 
 # --- Template Generator Function ---
@@ -121,83 +165,10 @@ def generate_character_template(name, format_type, character_type, use_example):
     {'Role("")\n    Specialty("")\n    CombatStyle("")\n    ScenarioTags("")\n    SampleDialogue("")' if format_type == 'S++' else ''}
 }}'''
 
-# --- Generate Output ---
+# --- Generate Output and Editing ---
 if st.button("Generate Template"):
     output = generate_character_template(name, format_type, character_type, use_example)
-    token_count = count_tokens(output)
-    st.code(output, language="markdown")
+    edited_output = st.text_area("✏️ You can now edit your generated template below:", output, height=600)
+    token_count = count_tokens(edited_output)
     st.success(f"Token Count: {token_count}")
-
-# --- Trait Reference Section ---
-st.markdown("""
-<style>
-.trait-box {
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
-    font-family: Arial;
-    line-height: 1.6;
-    background-color: rgba(255, 255, 255, 0.0); /* Transparent */
-}
-.trait-positive {
-    border: 2px solid #4DA8DA;
-}
-.trait-neutral {
-    border: 2px solid #FFB347;
-}
-.trait-negative {
-    border: 2px solid #FF6F61;
-}
-.trait-title {
-    font-weight: bold;
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-</style>
-
-<details>
-<summary><strong>📚 Personality Traits Reference (Click to Expand)</strong></summary>
-<br>
-<div class="trait-box trait-positive">
-    <div class="trait-title">💙 Positive Traits</div>
-    Affectionate, Ambitious, Brave, Calm, Caring, Charismatic, Cheerful, Compassionate, Confident, Considerate, Cooperative, Courteous, Creative, Decisive, Determined, Diligent, Empathetic, Enthusiastic, Faithful, Flexible, Forgiving, Friendly, Generous, Gentle, Helpful, Honest, Hopeful, Humble, Imaginative, Independent, Innovative, Kind, Logical, Loyal, Loving, Mature, Modest, Motivated, Optimistic, Organized, Outgoing, Patient, Polite, Positive, Practical, Proactive, Rational, Reliable, Respectful, Responsible, Sincere, Sociable, Supportive, Thoughtful, Tolerant, Trustworthy, Understanding, Warm
-</div>
-
-<div class="trait-box trait-neutral">
-    <div class="trait-title">🟠 Neutral Traits</div>
-    Analytical, Assertive, Cautious, Competitive, Curious, Direct, Discreet, Dreamy, Emotional, Focused, Formal, Honest (blunt), Idealistic, Introspective, Methodical, Observant, Outspoken, Perfectionist, Quiet, Realistic, Reflective, Reserved, Sarcastic, Serious, Shy, Skeptical, Strategic, Studious, Tenacious, Thoughtful (pragmatic), Tidy, Tough, Unconventional, Witty
-</div>
-
-<div class="trait-box trait-negative">
-    <div class="trait-title">❤️‍🔥 Negative Traits</div>
-    Aggressive, Aloof, Anxious, Arrogant, Bossy, Clingy, Cold, Conceited, Cowardly, Critical, Cruel, Cynical, Deceitful, Defensive, Demanding, Dishonest, Disloyal, Disrespectful, Distrustful, Envious, Fearful, Foolish, Forgetful, Greedy, Grumpy, Gullible, Hostile, Impatient, Impulsive, Inconsiderate, Inflexible, Intolerant, Irresponsible, Jealous, Lazy, Manipulative, Moody, Naive, Neglectful, Obsessive, Overbearing, Paranoid, Passive, Pessimistic, Possessive, Reckless, Rude, Selfish, Stubborn, Suspicious, Tactless, Unfriendly, Ungrateful, Unreliable, Vain, Vindictive, Weak-willed
-</div>
-</details>
-""", unsafe_allow_html=True)
-
-# --- Appearance Description Reference Section ---
-st.markdown("""
-<details>
-<summary><strong>✨ Appearance Description Reference (Click to Expand)</strong></summary>
-<br>
-<div class="trait-box" style="border: 2px solid #7C83FD">
-<div class="trait-title">👤 Head & Face</div>
-Facial shape, jawline structure, cheekbone prominence, nose length and tip, chin shape, ears, eye spacing, eyebrow style, mouth and lip fullness, etc.
-</div>
-
-<div class="trait-box" style="border: 2px solid #F47C7C">
-<div class="trait-title">💇 Hair</div>
-Length, color, texture, parting, styling (braids, buns, waves), volume, accessories (clips, ties).
-</div>
-
-<div class="trait-box" style="border: 2px solid #70D6FF">
-<div class="trait-title">🧍 Body</div>
-Height description (tall, petite), build (slender, stocky), limb proportions, shoulder width, muscle tone, posture.
-</div>
-
-<div class="trait-box" style="border: 2px solid #FFD670">
-<div class="trait-title">🧴 Skin</div>
-Tone (fair, olive, dark), undertones (cool, warm), complexion (freckled, smooth), scars, tattoos, markings.
-</div>
-</details>
-""", unsafe_allow_html=True)
+    st.download_button("Download as .txt", edited_output, file_name=f"{name}_template.txt")
