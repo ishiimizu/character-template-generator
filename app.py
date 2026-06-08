@@ -135,23 +135,34 @@ def generate_character_template(name, format_type, character_type, use_example):
     Height("")
     Nickname("")
 
-    {'Appearance {{\n        Hairstyle {{\n            Type("")\n            Texture("")\n            Details("")\n        }}\n        HairColor("")\n        EyeColor {{\n            Hue("")\n            Shape("")\n            Expression("")\n        }}\n        BodyProportions {{\n            Build("")\n            Posture("")\n            Features("")\n        }}\n        Attire {{\n            Top("")\n            Bottom("")\n            Legwear("")\n            Footwear("")\n            Accessories("")\n        }}\n        OverallAura("")\n    }}' if format_type == 'F++' else ''}
+    {'Appearance {{\n        Hairstyle {{\n            Type("")\n            Texture("")\n            Details("")\n        }}\n        HairColor("")\n        EyeColor {{\n            Hue("")\n            Shape("")\n            Expression("")\n        }}\n        BodyProportions {{\n            Build("")\n            Posture("")\n            Features("")\n        }}\n        Attire {{            Top("")\n            Bottom("")\n            Legwear("")\n            Footwear("")\n            Accessories("")\n        }}\n        OverallAura("")\n    }}' if format_type == 'F++' else ''}
 
     {'Personality {{\n        CoreTraits("")\n        PositiveTraits("")\n        NeutralTraits("")\n        NegativeTraits("")\n        Description("")\n    }}' if format_type == 'P++' else ''}
 
     {'Role("")\n    Specialty("")\n    CombatStyle("")\n    ScenarioTags("")\n    SampleDialogue("")' if format_type == 'S++' else ''}
 }}'''
 
-# --- Persistent Output with Editability ---
-if "output" not in st.session_state:
-    st.session_state.output = ""
+# --- Persistent Output with Editability (FIXED LAYER) ---
+# Initialize the editable content key in session state if it doesn't exist
+if "editable_content" not in st.session_state:
+    st.session_state.editable_content = ""
 
+# When button is clicked, directly update our active state variable
 if st.button("Generate Template"):
-    st.session_state.output = generate_character_template(name, format_type, character_type, use_example)
+    st.session_state.editable_content = generate_character_template(name, format_type, character_type, use_example)
 
-edited_output = st.text_area("📝 Editable Template Output", value=st.session_state.output, height=400, key="editable")
+# Display the text area linked to our persistent variable
+edited_output = st.text_area(
+    "📝 Editable Template Output", 
+    value=st.session_state.editable_content, 
+    height=400
+)
 
-if edited_output:
+# Keep the session state updated if the user types inside the box manually
+st.session_state.editable_content = edited_output
+
+# Render utility elements only if there is text present
+if edited_output.strip():
     st.success(f"Token Count: {count_tokens(edited_output)}")
     st.download_button("📅 Download Template as .txt", data=edited_output, file_name="character_template.txt")
     st.code(edited_output, language="text")
